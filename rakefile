@@ -1,0 +1,17 @@
+require 'rake/gempackagetask'
+require 'rspec'
+require 'rspec/core/rake_task'
+require File.join(File.dirname(__FILE__), 'lib', 'em-rspec')
+
+RSpec::Core::RakeTask.new do |t|
+  t.rspec_opts = %w<-c>
+  t.pattern = 'spec/**/*.rb'
+end
+
+spec = eval(File.read('em-rspec.gemspec'))
+
+Rake::GemPackageTask.new(spec) do |p|
+  p.gem_spec = spec
+end
+
+task :default => :spec
