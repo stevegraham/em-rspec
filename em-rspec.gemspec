@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.platform                  = Gem::Platform::RUBY
   s.name                      = 'em-rspec'
-  s.version                   = '0.1'
+  s.version                   = '0.1.1'
   s.summary                   = 'Test EventMachine code in RSpec 2'
   s.description               = 'Test EventMachine code in RSpec 2 '
 

@@ -19,19 +19,19 @@ end</pre>
 
 # How it works
 
-As mentioned before, before the spec is run, a reactor loop is setup, and a callback to teardown the loop on the next tick of the reactor loop is created.
-This is an important point to consider because if you do any asynchronous i/o operations, your code will not be tested because the reactor loop is running
-precisely one tick. It is an antipattern to actually hit the network in your tests and what you should do is mock out i/o calls to return immediately,
-e.g. http calls with [webmock](https://github.com/bblimke/webmock).
+As mentioned before, before the spec is run, a reactor loop is setup, and a callback to teardown the loop when your example finishes execution is created.
+This is an important point to consider because if you do any asynchronous i/o operations, your code will not be tested, because your code will likely have
+finished execution before the i/o operation is complete. It is an antipattern to actually hit the network in your tests and what you should do is mock out
+i/o calls to return immediately, e.g. http calls with [webmock](https://github.com/bblimke/webmock).
 
 This is how your examples are run with em-rspec:
 
 - Set up reactor loop
-- Set callback to tear down reactor loop on the next tick
+- Set callback to tear down reactor loop when spec is finished
 - Wrap example in fiber
 - Run before each block
 - Run example
 - Run after each block
-- Crank reactor loop and tear it down.
+- Tear down reactor loop
 
 &copy; 2011 Stevie Graham
