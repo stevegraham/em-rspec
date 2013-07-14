@@ -1,7 +1,9 @@
 # em-rspec
 
-em-rspec is a very simple patch to RSpec 2 that sets up and tears down an EventMachine reactor loop, and runs each example within the context of the loop. 
-It also will wrap each example in a [Fiber](http://ruby-doc.org/core-1.9/classes/Fiber.html) so you are free to untangle nested callbacks.
+em-rspec is a very simple patch to RSpec 2 that sets up and tears down
+an EventMachine reactor loop, and run examples tagged as
+`eventmachine: true` within the context of the loop.
+It also will wrap examples in a [Fiber](http://ruby-doc.org/core-1.9/classes/Fiber.html) so you are free to untangle nested callbacks.
 
 # Usage
 
@@ -9,9 +11,9 @@ It also will wrap each example in a [Fiber](http://ruby-doc.org/core-1.9/classes
 
 `require 'em-rspec'`
 
-em-rspec extends RSpec in an unobtrusive way that requires no addtional code in your specs to test EM code. e.g.
+em-rspec extends RSpec so that you can decide which specs are to be executed within the context of a reactor loop:
 
-<pre>describe 'em-rspec' do
+<pre>describe 'em-rspec' eventmachine: true do
   it 'executes specs within a reactor loop' do
     EM.reactor_running?.should be_true # This is true
   end
