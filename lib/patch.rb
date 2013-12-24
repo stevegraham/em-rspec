@@ -12,10 +12,11 @@ RSpec::Core::Example.class_eval do
   def run(example_group_instance, reporter)
     Fiber.new do
       EM.run do
-        df = EM::DefaultDeferrable.new
-        df.callback { |x| EM.stop }
-        ignorant_run example_group_instance, reporter
-        df.succeed
+	df = EM::DefaultDeferrable.new
+	result = nil
+	df.callback { |x| EM.stop_event_loop; Fiber.yield result }
+	result = ignorant_run example_group_instance, reporter
+	df.succeed
       end
     end.resume
   end
